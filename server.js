@@ -6,9 +6,9 @@ let assignment = require('./routes/assignments');
 let mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 // mongoose.set('debug', true);
-
+const uri = 'mongodb+srv://tfenoaina:garnacho2004@cluster0.vi1u5wq.mongodb.net/angularAssignments?retryWrites=true&w=majority&appName=Cluster0'
 // remplacer toute cette chaine par l'URI de connexion à votre propre base dans le cloud s
-const uri = 'mongodb+srv://mb1:toto@cluster0.lxvcyxy.mongodb.net/assignments?retryWrites=true&w=majority&appName=Cluster0';
+// const uri = 'mongodb+srv://mb1:toto@cluster0.lxvcyxy.mongodb.net/assignments?retryWrites=true&w=majority&appName=Cluster0';
 const options = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
