@@ -1,0 +1,13 @@
+[{
+  "_id": {
+    "$oid": "65f71459de4184ff0d9f59ab"
+  },
+  "nom": "MBDS",
+  "niveau": "Master 1",
+  "eleves": [
+    "65f71367de4184ff0d9f59a4"
+  ],
+  "matieres": [
+    "65f713f6de4184ff0d9f59a9"
+  ]
+}]

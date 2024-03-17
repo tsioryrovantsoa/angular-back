@@ -1,0 +1,27 @@
+[{
+  "_id": {
+    "$oid": "65f71367de4184ff0d9f59a4"
+  },
+  "nom": "Tsiory",
+  "login": "tsiory",
+  "password": "tsiory",
+  "role": "eleve"
+},
+{
+  "_id": {
+    "$oid": "65f713b5de4184ff0d9f59a6"
+  },
+  "nom": "Gabriel Mopollo",
+  "login": "gabmopollo",
+  "password": "gabmopollo",
+  "role": "professeur"
+},
+{
+  "_id": {
+    "$oid": "65f713d8de4184ff0d9f59a7"
+  },
+  "nom": "Administrateur",
+  "login": "admin",
+  "password": "admin",
+  "role": "admin"
+}]
