@@ -49,26 +49,37 @@ let port = process.env.PORT || 8010;
 // les routes
 const prefix = '/api';
 
-function authenticateToken(req, res, next) {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
+// Middleware pour vérifier le token JWT et le rôle de l'utilisateur
+function authenticateToken(role) {
+  return function(req, res, next) {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
 
-  if (token == null) {
-    return res.status(401).json({ message: 'Token non fourni' });
-  }
-
-  jwt.verify(token, 't8#h@]~nX3B;4Fz!$2d5AqKp9^jGvL', (err, user) => {
-    if (err) {
-      return res.status(403).json({ message: 'Token invalide' });
+    if (token == null) {
+      return res.status(401).json({ message: 'Token non fourni' });
     }
-    req.user = user;
-    next();
-  });
+
+    jwt.verify(token, 't8#h@]~nX3B;4Fz!$2d5AqKp9^jGvL', (err, user) => {
+      if (err) {
+        return res.status(403).json({ message: 'Token invalide' });
+      }
+      req.user = user;
+
+      // Ajoutez la logique pour vérifier le rôle de l'utilisateur ici
+      console.log("tayyyy"+user.login)
+      if (user.role !== role) {
+        return res.status(403).json({ message: 'Accès refusé : vous n\'avez pas les permissions nécessaires' });
+      }
+
+      next();
+    });
+  };
 }
+
 
 // http://serveur..../assignments
 app.route(prefix + '/assignments')
-  .get(authenticateToken,assignment.getAssignments);
+  .get(authenticateToken("admin"),assignment.getAssignments);
   app.route(prefix + '/classes')
   .get(classe.getClasses);
 

@@ -19,7 +19,7 @@ const jwt = require('jsonwebtoken');
       return res.status(401).json({ message: 'Nom d\'utilisateur ou mot de passe incorrect' });
     }
 
-    const token = jwt.sign({ login: user.login }, 't8#h@]~nX3B;4Fz!$2d5AqKp9^jGvL', { expiresIn: '1h' });
+    const token = jwt.sign({ login: user.login,role:user.role}, 't8#h@]~nX3B;4Fz!$2d5AqKp9^jGvL', { expiresIn: '1h' });
     res.json({ role: user.role, nom: user.nom, token });
   } catch (error) {
     res.status(500).json({ error: error.message });
