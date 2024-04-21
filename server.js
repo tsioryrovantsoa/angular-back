@@ -5,6 +5,7 @@ let assignment = require('./routes/assignments');
 let utilisateur = require('./routes/utilisateur');
 let classe = require('./routes/classe');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 
 let mongoose = require('mongoose');
@@ -48,9 +49,26 @@ let port = process.env.PORT || 8010;
 // les routes
 const prefix = '/api';
 
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+
+  if (token == null) {
+    return res.status(401).json({ message: 'Token non fourni' });
+  }
+
+  jwt.verify(token, 't8#h@]~nX3B;4Fz!$2d5AqKp9^jGvL', (err, user) => {
+    if (err) {
+      return res.status(403).json({ message: 'Token invalide' });
+    }
+    req.user = user;
+    next();
+  });
+}
+
 // http://serveur..../assignments
 app.route(prefix + '/assignments')
-  .get(assignment.getAssignments);
+  .get(authenticateToken,assignment.getAssignments);
   app.route(prefix + '/classes')
   .get(classe.getClasses);
 
