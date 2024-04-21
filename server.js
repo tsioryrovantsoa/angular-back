@@ -2,9 +2,13 @@ let express = require('express');
 let app = express();
 let bodyParser = require('body-parser');
 let assignment = require('./routes/assignments');
+let utilisateur = require('./routes/utilisateur');
 let classe = require('./routes/classe');
+const bcrypt = require('bcrypt');
+
 
 let mongoose = require('mongoose');
+const User = require('./model/utilisateur');
 mongoose.Promise = global.Promise;
 // mongoose.set('debug', true);
 const uri = 'mongodb+srv://tfenoaina:garnacho2004@cluster0.vi1u5wq.mongodb.net/angularAssignments?retryWrites=true&w=majority&appName=Cluster0'
@@ -35,8 +39,8 @@ app.use(function (req, res, next) {
 });
 
 // Pour les formulaires
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
 
 // Obligatoire si déploiement dans le cloud !
 let port = process.env.PORT || 8010;
@@ -47,9 +51,34 @@ const prefix = '/api';
 // http://serveur..../assignments
 app.route(prefix + '/assignments')
   .get(assignment.getAssignments);
-
   app.route(prefix + '/classes')
   .get(classe.getClasses);
+
+  app.use(express.json());
+// Route pour la connexion
+// app.post(prefix +'/login', async (req, res) => {
+//   try {
+//     const { login, password } = req.body;
+//     const user = await User.findOne({ login });
+
+//     if (!user) {
+//       return res.status(401).json({ message: 'Nom d\'utilisateur ou mot de passe incorrect' });
+//     }
+
+//     const passwordMatch = await bcrypt.compare(password, user.password);
+
+//     if (!passwordMatch) {
+//       return res.status(401).json({ message: 'Nom d\'utilisateur ou mot de passe incorrect' });
+//     }
+
+//     const token = jwt.sign({ login: user.login }, 't8#h@]~nX3B;4Fz!$2d5AqKp9^jGvL', { expiresIn: '1h' });
+//     res.json({ token });
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
+app.route(prefix + '/login')
+.post(utilisateur.login)
 
 // On démarre le serveur
 app.listen(port, "0.0.0.0");
