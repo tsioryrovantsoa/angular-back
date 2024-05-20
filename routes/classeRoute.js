@@ -1,9 +1,19 @@
 const express = require('express');
 const ClasseController = require('../controllers/classeController');
-const router = express.Router();
+const app = express.Router();
 
 const controller = new ClasseController();
 
-router.get('/',controller.getAllClasse);
+/**
+ * @openapi
+ * /classes:
+ *   get:
+ *     summary: Récupérer toutes les classes
+ *     description: Récupère toutes les classes disponibles.
+ *     responses:
+ *       '200':
+ *         description: Liste des classes récupérée avec succès
+ */
+app.get('/',controller.getAllClasse);
 
-module.exports = router;
+module.exports = app;
