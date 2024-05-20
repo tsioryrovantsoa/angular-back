@@ -1,7 +1,6 @@
 const Assignment = require("../model/assignment.js");
 
 function getAssignments(req, res) {
-  // Recherche des assignments
   Assignment.find()
     .populate("auteur")
     .populate({
