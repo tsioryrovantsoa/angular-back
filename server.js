@@ -1,10 +1,10 @@
 let express = require("express");
 let app = express();
 let bodyParser = require("body-parser");
-let utilisateur = require("./routes/utilisateurModel");
-let classe = require("./routes/classe");
-const morgan = require('morgan');
-const assignementRoute = require('./routes/assignementRoute');
+const morgan = require("morgan");
+const assignementRoute = require("./routes/assignementRoute");
+const classeRoute = require("./routes/classeRoute");
+const authRoute = require("./routes/authRoute");
 
 let mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
@@ -35,7 +35,7 @@ mongoose.connect(uri, options).then(
   }
 );
 
-app.use(morgan('dev'));
+app.use(morgan("dev"));
 
 // Pour accepter les connexions cross-domain (CORS)
 app.use(function (req, res, next) {
@@ -59,14 +59,12 @@ let port = process.env.PORT || 8010;
 const prefix = "/api";
 
 // http://serveur..../assignments
-app.use(prefix + "/assignments",assignementRoute);
-
-app.route(prefix + "/classes").get(classe.getClasses);
-
-app.route(prefix + "/login").post(utilisateur.login);
+app.use(prefix + "/assignments", assignementRoute);
+app.use(prefix + "/classes", classeRoute);
+app.use(prefix + "/auth",authRoute);
 
 app.use((req, res, next) => {
-  res.status(404).send({statue : "ko", message: "Route introuvable"})
+  res.status(404).send({ statue: "ko", message: "Route introuvable" });
 });
 
 // On démarre le serveur

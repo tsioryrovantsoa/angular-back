@@ -2,7 +2,12 @@ const jwt = require("jsonwebtoken");
 const SECRET_KEY = "angular_mbds"; // Assurez-vous de stocker cela de manière sécurisée, par exemple dans les variables d'environnement
 
 const verifyToken = (req, res, next) => {
-  const token = req.headers["authorization"];
+  const authHeader  = req.headers["authorization"];
+  if (!authHeader ) {
+    return res.status(403).json({ message: "Token manquant" });
+  }
+
+  const token = authHeader.split(" ")[1];
   if (!token) {
     return res.status(403).json({ message: "Token manquant" });
   }

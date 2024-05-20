@@ -7,6 +7,7 @@ const userSchema = new Schema({
   nom: String,
   login: String,
   password: String,
+  image: String,
   role: { type: String, enum: rolesEnum }, // Utilisation d'un Enum pour le rôle
 },{ collection: 'utilisateur' });
 
