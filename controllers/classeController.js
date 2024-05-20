@@ -15,7 +15,6 @@ class ClasseController extends BaseController {
         "Liste des classes recuperer avec success"
       );
     } catch (error) {
-      console.log(error);
       this.resKo(res, error);
     }
   };

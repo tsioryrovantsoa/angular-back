@@ -12,10 +12,9 @@ class AssignementController extends BaseController {
       this.resOk(
         res,
         await this.service.getAll(),
-        "Liste des Assignements faite avec success"
+        "Liste des Assignements récupérer avec success"
       );
     } catch (error) {
-      console.log(error);
       this.resKo(res, error);
     }
   };

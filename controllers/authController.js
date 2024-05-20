@@ -13,7 +13,6 @@ class AuthController extends BaseController {
       const token = await this.service.login(login, password);
       this.resOk(res, token, "Utilisateur connecter avec success");
     } catch (error) {
-      console.log(error);
       this.resKo(res, error);
     }
   };
@@ -21,9 +20,8 @@ class AuthController extends BaseController {
   register = async (req, res) => {
     try {
       const token = await this.service.register(req.body);
-      this.resOk(res, token, "Utilisateur inscrit avec success");
+      this.resOk(res, token, "Utilisateur inscrit avec success",201);
     } catch (error) {
-      console.log(error);
       this.resKo(res, error);
     }
   };

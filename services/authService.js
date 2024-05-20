@@ -1,6 +1,7 @@
 const User = require("../model/utilisateur");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
+const CustomError = require("../utils/CustomError");
 
 const SECRET_KEY = "angular_mbds";
 
@@ -9,12 +10,12 @@ class AuthService {
     try {
       const user = await User.findOne({ login });
       if (!user) {
-        throw new Error("Identifiants incorrects");
+        throw new CustomError("Identifiants incorrects",400);
       }
 
       const isPasswordValid = await bcrypt.compare(password, user.password);
       if (!isPasswordValid) {
-        throw new Error("Identifiants incorrects");
+        throw new CustomError("Identifiants incorrects",400);
       }
 
       const token = jwt.sign(
@@ -35,7 +36,7 @@ class AuthService {
 
       const existingUser = await User.findOne({ login });
       if (existingUser) {
-        throw new Error("Utilisateur déjà existant");
+        throw new CustomError("Utilisateur déjà existant",400);
       }
 
       const hashedPassword = await bcrypt.hash(password, 10);
