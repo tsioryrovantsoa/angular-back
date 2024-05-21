@@ -11,8 +11,8 @@ class AssignementController extends BaseController {
     try {
       this.resOk(
         res,
-        await this.service.getAll(),
-        "Liste des Assignements récupérer avec success"
+        await this.service.getAll(req.user),
+        `Liste des Assignements récupérer avec success (${req.user.role})`
       );
     } catch (error) {
       this.resKo(res, error);

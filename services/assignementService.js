@@ -1,10 +1,21 @@
 const Assignment = require("../model/assignment");
+const Matiere = require("../model/matiere");
 const CustomError = require("../utils/CustomError");
 
 class AssignementService {
-  getAll = async () => {
+  getAll = async (user) => {
     try {
-      return await Assignment.find()
+      let filter = {};
+
+      if (user.role === "eleve") {
+        filter.auteur = user.userId;
+      } else if (user.role === "professeur") {
+        const matieres = await Matiere.find({ prof: user.userId.toString() });
+        const matiereIds = matieres.map((matiere) => matiere.id);
+        filter.matiere = { $in: matiereIds };
+      }
+
+      return await Assignment.find(filter)
         .populate("auteur")
         .populate({
           path: "matiere",
@@ -52,7 +63,7 @@ class AssignementService {
   update = async (id, data) => {
     try {
       const assign = await Assignment.findByIdAndUpdate(id, data, {
-        new: true
+        new: true,
       });
       if (!assign) {
         throw new CustomError("Assignment non trouver", 404);
@@ -63,7 +74,7 @@ class AssignementService {
     }
   };
 
-  delete = async(id) => {
+  delete = async (id) => {
     try {
       const assign = await Assignment.findByIdAndRemove(id);
       if (!assign) {
@@ -72,7 +83,7 @@ class AssignementService {
     } catch (error) {
       throw error;
     }
-  }
+  };
 }
 
 module.exports = AssignementService;

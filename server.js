@@ -60,7 +60,9 @@ let port = process.env.PORT || 8010;
 // les routes
 const prefix = "/api";
 
+
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 // http://serveur..../assignments
 app.use(prefix + "/assignments", assignementRoute);
 app.use(prefix + "/classes", classeRoute);

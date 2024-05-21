@@ -8,6 +8,7 @@ const assignmentSchema = new Schema({
   nom: String,
   dateDeRendu: Date,
   rendu: Boolean,
+  renduauteur: Boolean,
   auteur: { type: Schema.Types.ObjectId, ref: 'User' }, // Référence à un élève
   matiere: { type: Schema.Types.ObjectId, ref: 'Matiere' },
   note: Number,

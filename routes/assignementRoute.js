@@ -21,7 +21,7 @@ const controller = new AssignementController();
  *       '403':
  *         description: Interdit - L'utilisateur n'a pas les autorisations nécessaires
  */
-app.get('/',verifyToken,checkRole(['admin']),controller.getAllAssignements);
+app.get('/',verifyToken,checkRole(['admin','professeur','eleve']),controller.getAllAssignements);
 
 app.get('/:id',verifyToken,checkRole(['admin']),controller.getAssignementById);
 

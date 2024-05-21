@@ -15,6 +15,7 @@ const verifyToken = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, SECRET_KEY);
     req.user = decoded;
+    console.log("Utilisateur connecter ==> ",req.user)
     next();
   } catch (error) {
     res.status(401).json({ statue: "ko", message: "Token invalide" });
