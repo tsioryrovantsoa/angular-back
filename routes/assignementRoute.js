@@ -29,4 +29,6 @@ app.post('/',verifyToken,checkRole(['admin']),controller.createAssignment);
 
 app.put('/:id',verifyToken,checkRole(['admin']),controller.updateAssignment);
 
+app.delete('/:id',verifyToken,checkRole(['admin']),controller.updateAssignment);
+
 module.exports = app;
