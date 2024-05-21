@@ -48,6 +48,21 @@ class AssignementService {
       throw error;
     }
   };
+
+  update = async (id, data) => {
+    try {
+      const assign = await Assignment.findByIdAndUpdate(id, data, {
+        new: true,
+        runValidators: true,
+      });
+      if (!assign) {
+        throw new CustomError("Assignment non trouver", 404);
+      }
+      return assign;
+    } catch (error) {
+      throw error;
+    }
+  };
 }
 
 module.exports = AssignementService;

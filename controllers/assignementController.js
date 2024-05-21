@@ -43,6 +43,18 @@ class AssignementController extends BaseController {
       this.resKo(res, error);
     }
   };
+
+  updateAssignment = async (req, res) => {
+    try {
+      this.resOk(
+        res,
+        await this.service.update(req.params.id, req.body),
+        "Assignement modifier avec success"
+      );
+    } catch (error) {
+      this.resKo(res, error);
+    }
+  };
 }
 
 module.exports = AssignementController;
