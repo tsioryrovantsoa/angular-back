@@ -1,4 +1,5 @@
 const Assignment = require("../model/assignment");
+const CustomError = require("../utils/CustomError");
 
 class AssignementService {
   getAll = async () => {
@@ -20,7 +21,7 @@ class AssignementService {
 
   getById = async (id) => {
     try {
-      return await Assignment.findById(id)
+      const assignement = await Assignment.findById(id)
         .populate("auteur")
         .populate({
           path: "matiere",
@@ -30,6 +31,10 @@ class AssignementService {
             model: "User",
           },
         });
+      if(!assignement){
+        throw new CustomError("Assignement non trouvé", 404);
+      }
+      return assignement;
     } catch (error) {
       throw error;
     }
