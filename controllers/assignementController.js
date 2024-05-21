@@ -55,6 +55,19 @@ class AssignementController extends BaseController {
       this.resKo(res, error);
     }
   };
+
+  deleteAssignment = async (req, res) => {
+    try {
+      this.resOk(
+        res,
+        await this.service.delete(req.params.id),
+        "Assignement supprimer avec success",
+        204
+      );
+    } catch (error) {
+      this.resKo(res, error);
+    }
+  };
 }
 
 module.exports = AssignementController;

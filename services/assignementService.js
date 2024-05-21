@@ -52,8 +52,7 @@ class AssignementService {
   update = async (id, data) => {
     try {
       const assign = await Assignment.findByIdAndUpdate(id, data, {
-        new: true,
-        runValidators: true,
+        new: true
       });
       if (!assign) {
         throw new CustomError("Assignment non trouver", 404);
@@ -63,6 +62,17 @@ class AssignementService {
       throw error;
     }
   };
+
+  delete = async(id) => {
+    try {
+      const assign = await Assignment.findByIdAndRemove(id);
+      if (!assign) {
+        throw new CustomError("Assignment non trouver", 404);
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 module.exports = AssignementService;
