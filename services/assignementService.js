@@ -31,10 +31,19 @@ class AssignementService {
             model: "User",
           },
         });
-      if(!assignement){
+      if (!assignement) {
         throw new CustomError("Assignement non trouvé", 404);
       }
       return assignement;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  create = async (data) => {
+    try {
+      const assign = new Assignment(data);
+      return await assign.save();
     } catch (error) {
       throw error;
     }

@@ -30,6 +30,19 @@ class AssignementController extends BaseController {
       this.resKo(res, error);
     }
   };
+
+  createAssignment = async (req, res) => {
+    try {
+      this.resOk(
+        res,
+        await this.service.create(req.body),
+        "Assignement creer avec success",
+        201
+      );
+    } catch (error) {
+      this.resKo(res, error);
+    }
+  };
 }
 
 module.exports = AssignementController;
