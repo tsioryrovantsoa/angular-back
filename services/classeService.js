@@ -17,6 +17,14 @@ class ClasseService {
       throw error;
     }
   };
+
+  getClassesByMatiereId  = async (matiereId) => {
+    try {
+      return await Classe.find({ matieres: matiereId });
+    } catch (error) {
+      throw error;
+    }
+  };
 }
 
 module.exports = ClasseService;

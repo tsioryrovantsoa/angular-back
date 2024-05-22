@@ -15,5 +15,6 @@ const controller = new ClasseController();
  *         description: Liste des classes récupérée avec succès
  */
 app.get('/',controller.getAllClasse);
+app.get('/matiere/:matiereId',controller.getClassesByMatiereId);
 
 module.exports = app;
