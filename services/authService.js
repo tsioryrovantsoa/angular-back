@@ -24,7 +24,7 @@ class AuthService {
         { expiresIn: "1h" }
       );
 
-      return token;
+      return {"token":token,"role":user.role};
     } catch (error) {
       throw error;
     }
