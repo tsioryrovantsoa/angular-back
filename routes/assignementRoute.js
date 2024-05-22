@@ -23,9 +23,9 @@ const controller = new AssignementController();
  */
 app.get('/',verifyToken,checkRole(['admin','professeur','eleve']),controller.getAllAssignements);
 
-app.get('/:id',verifyToken,checkRole(['admin']),controller.getAssignementById);
+app.get('/:id',verifyToken,checkRole(['admin','professeur','eleve']),controller.getAssignementById);
 
-app.post('/',verifyToken,checkRole(['admin']),controller.createAssignment);
+app.post('/',verifyToken,checkRole(['admin','professeur']),controller.createAssignment);
 
 app.put('/:id',verifyToken,checkRole(['admin']),controller.updateAssignment);
 
