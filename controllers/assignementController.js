@@ -9,9 +9,11 @@ class AssignementController extends BaseController {
 
   getAllAssignements = async (req, res) => {
     try {
+      const page = req.query.page || 1;
+      const limit = req.query.limit || 10;
       this.resOk(
         res,
-        await this.service.getAll(req.user),
+        await this.service.getAll(req.user, page, limit),
         `Liste des Assignements récupérer avec success (${req.user.role})`
       );
     } catch (error) {

@@ -3,7 +3,7 @@ const Matiere = require("../model/matiere");
 const CustomError = require("../utils/CustomError");
 
 class AssignementService {
-  getAll = async (user) => {
+  getAll = async (user,page = 1, limit = 10) => {
     try {
       let filter = {};
 
@@ -15,16 +15,44 @@ class AssignementService {
         filter.matiere = { $in: matiereIds };
       }
 
-      return await Assignment.find(filter)
-        .populate("auteur")
-        .populate({
-          path: "matiere",
-          model: "Matiere",
-          populate: {
-            path: "prof",
-            model: "User",
-          },
-        });
+      let aggregateQuery = Assignment.aggregate([
+        { $match: filter },
+        {
+          $lookup: {
+            from: 'utilisateur',
+            localField: 'auteur',
+            foreignField: '_id',
+            as: 'auteur'
+          }
+        },
+        { $unwind: '$auteur' },
+        {
+          $lookup: {
+            from: 'matiere',
+            localField: 'matiere',
+            foreignField: '_id',
+            as: 'matiere'
+          }
+        },
+        { $unwind: '$matiere' },
+        {
+          $lookup: {
+            from: 'utilisateur',
+            localField: 'matiere.prof',
+            foreignField: '_id',
+            as: 'matiere.prof'
+          }
+        },
+        { $unwind: '$matiere.prof' }
+      ]);
+  
+      const options = {
+        page: parseInt(page),
+        limit: parseInt(limit)
+      };
+  
+      const result = await Assignment.aggregatePaginate(aggregateQuery, options);
+      return result;
     } catch (error) {
       throw error;
     }
