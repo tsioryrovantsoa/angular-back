@@ -1,5 +1,6 @@
 const Assignment = require("../model/assignment");
 const Matiere = require("../model/matiere");
+const Classe = require("../model/classe");
 const CustomError = require("../utils/CustomError");
 
 class AssignementService {
@@ -83,6 +84,31 @@ class AssignementService {
     try {
       const assign = new Assignment(data);
       return await assign.save();
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  
+  createAssignmentAdmin = async (classeId,data) => {
+    try {
+      const classe = await Classe.findById(classeId).populate('eleves');
+      if (!classe) {
+        throw new CustomError('Classe non trouvée', 400);
+      }
+
+      const eleves = classe.eleves;
+      if (!eleves.length) {
+        throw new CustomError('Aucun élève trouvé dans cette classe', 400);
+      }
+
+      const assignments = eleves.map(eleve => ({
+        ...data,
+        auteur: eleve._id
+      }));
+
+      return await Assignment.insertMany(assignments);
+
     } catch (error) {
       throw error;
     }
