@@ -27,7 +27,7 @@ app.get('/:id',verifyToken,checkRole(['admin','professeur','eleve']),controller.
 
 app.post('/',verifyToken,checkRole(['admin','professeur']),controller.createAssignment);
 
-app.post('/admin',verifyToken,checkRole(['admin']),controller.createAssignmentAdmin);
+app.post('/admin/prof',verifyToken,checkRole(['admin','professeur']),controller.createAssignmentAdmin);
 
 app.put('/:id',verifyToken,checkRole(['admin']),controller.updateAssignment);
 
