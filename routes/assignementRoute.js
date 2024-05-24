@@ -31,6 +31,8 @@ app.post('/admin/prof',verifyToken,checkRole(['admin','professeur']),controller.
 
 app.put('/:id',verifyToken,checkRole(['admin']),controller.updateAssignment);
 
+app.put('/note/:id',verifyToken,checkRole(['admin','professeur']),controller.noterAssignement);
+
 app.delete('/:id',verifyToken,checkRole(['admin']),controller.deleteAssignment);
 
 module.exports = app;

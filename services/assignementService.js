@@ -4,7 +4,7 @@ const Classe = require("../model/classe");
 const CustomError = require("../utils/CustomError");
 
 class AssignementService {
-  getAll = async (user,page = 1, limit = 10) => {
+  getAll = async (user, page = 1, limit = 10) => {
     try {
       let filter = {};
 
@@ -20,39 +20,42 @@ class AssignementService {
         { $match: filter },
         {
           $lookup: {
-            from: 'utilisateur',
-            localField: 'auteur',
-            foreignField: '_id',
-            as: 'auteur'
-          }
+            from: "utilisateur",
+            localField: "auteur",
+            foreignField: "_id",
+            as: "auteur",
+          },
         },
-        { $unwind: '$auteur' },
+        { $unwind: "$auteur" },
         {
           $lookup: {
-            from: 'matiere',
-            localField: 'matiere',
-            foreignField: '_id',
-            as: 'matiere'
-          }
+            from: "matiere",
+            localField: "matiere",
+            foreignField: "_id",
+            as: "matiere",
+          },
         },
-        { $unwind: '$matiere' },
+        { $unwind: "$matiere" },
         {
           $lookup: {
-            from: 'utilisateur',
-            localField: 'matiere.prof',
-            foreignField: '_id',
-            as: 'matiere.prof'
-          }
+            from: "utilisateur",
+            localField: "matiere.prof",
+            foreignField: "_id",
+            as: "matiere.prof",
+          },
         },
-        { $unwind: '$matiere.prof' }
+        { $unwind: "$matiere.prof" },
       ]);
-  
+
       const options = {
         page: parseInt(page),
-        limit: parseInt(limit)
+        limit: parseInt(limit),
       };
-  
-      const result = await Assignment.aggregatePaginate(aggregateQuery, options);
+
+      const result = await Assignment.aggregatePaginate(
+        aggregateQuery,
+        options
+      );
       return result;
     } catch (error) {
       throw error;
@@ -89,26 +92,24 @@ class AssignementService {
     }
   };
 
-  
-  createAssignmentAdmin = async (classeId,data) => {
+  createAssignmentAdmin = async (classeId, data) => {
     try {
-      const classe = await Classe.findById(classeId).populate('eleves');
+      const classe = await Classe.findById(classeId).populate("eleves");
       if (!classe) {
-        throw new CustomError('Classe non trouvée', 400);
+        throw new CustomError("Classe non trouvée", 400);
       }
 
       const eleves = classe.eleves;
       if (!eleves.length) {
-        throw new CustomError('Aucun élève trouvé dans cette classe', 400);
+        throw new CustomError("Aucun élève trouvé dans cette classe", 400);
       }
 
-      const assignments = eleves.map(eleve => ({
+      const assignments = eleves.map((eleve) => ({
         ...data,
-        auteur: eleve._id
+        auteur: eleve._id,
       }));
 
       return await Assignment.insertMany(assignments);
-
     } catch (error) {
       throw error;
     }
@@ -134,6 +135,29 @@ class AssignementService {
       if (!assign) {
         throw new CustomError("Assignment non trouver", 404);
       }
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  noterAssignment = async (id, data) => {
+    try {
+      const { note, remarques } = data;
+      const assignment = await Assignment.findById(id);
+
+      if (!assignment) {
+        throw new CustomError("Assignment non trouver", 404);
+      }
+      if (assignment.note !== null) {
+        throw new CustomError("Assignment deja noter", 400);
+      }
+
+      assignment.note = note;
+      assignment.remarques = remarques;
+      assignment.rendu = true;
+      assignment.renduauteur = true;
+
+      return await assignment.save();
     } catch (error) {
       throw error;
     }
