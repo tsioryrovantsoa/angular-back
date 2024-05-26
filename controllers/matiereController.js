@@ -18,6 +18,20 @@ class MatiereController extends BaseController {
       this.resKo(res, error);
     }
   };
+
+  getAllMatiereByProfPagination = async (req, res) => {
+    try {
+      const page = req.query.page || 1;
+      const limit = req.query.limit || 10;
+      this.resOk(
+        res,
+        await this.service.getAllCoursesByIdProfPagination(req.params.profId, page, limit),
+        `Liste des Matieres récupérer avec success `
+      );
+    } catch (error) {
+      this.resKo(res, error);
+    }
+  };
 }
 
 module.exports = MatiereController;

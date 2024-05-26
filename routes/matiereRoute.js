@@ -5,5 +5,6 @@ const app = express.Router();
 const controller = new MatiereController();
 
 app.get('/prof/:profId',controller.getAllMatiereByProf);
+app.get('/matiere/:profId',controller.getAllMatiereByProfPagination);
 
 module.exports = app;

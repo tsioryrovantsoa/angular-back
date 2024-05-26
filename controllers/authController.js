@@ -9,6 +9,7 @@ class AuthController extends BaseController {
 
   login = async (req, res) => {
     try {
+      console.log(req.body)
       const { login, password } = req.body;
       const token = await this.service.login(login, password);
       this.resOk(res, token, "Utilisateur connecter avec success");
