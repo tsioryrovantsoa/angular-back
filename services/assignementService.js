@@ -2,6 +2,7 @@ const Assignment = require("../model/assignment");
 const Matiere = require("../model/matiere");
 const Classe = require("../model/classe");
 const CustomError = require("../utils/CustomError");
+const mongoose = require('mongoose');
 
 class AssignementService {
   getAll = async (user, page = 1, limit = 10) => {
@@ -9,10 +10,11 @@ class AssignementService {
       let filter = {};
 
       if (user.role === "eleve") {
-        filter.auteur = user.userId;
+        const id_user = mongoose.Types.ObjectId(user.userId);
+        filter.auteur = id_user;
       } else if (user.role === "professeur") {
-        const matieres = await Matiere.find({ prof: user.userId.toString() });
-        const matiereIds = matieres.map((matiere) => matiere.id);
+        const matieres = await Matiere.find({ prof: user.userId });
+        const matiereIds = matieres.map((matiere) => matiere._id);
         filter.matiere = { $in: matiereIds };
       }
 
