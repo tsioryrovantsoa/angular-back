@@ -19,6 +19,18 @@ class UtilisateurController extends BaseController {
     }
   };
 
+  getAllEleve = async(req,res) => {
+    try {
+      this.resOk(
+        res,
+        await this.service.getAllEleve(),
+        `Liste des toutes les Eleves récupérer avec success`
+      );
+    } catch (error) {
+      this.resKo(res, error);
+    }
+  }
+
 }
 
 module.exports = UtilisateurController;

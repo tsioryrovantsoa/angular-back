@@ -7,6 +7,18 @@ class MatiereController extends BaseController {
     this.service = new MatiereService();
   }
 
+  getAllMatiere = async (req, res) => {
+    try {
+      this.resOk(
+        res,
+        await this.service.getAllMatiere(),
+        "Liste des matieres recuperer avec success"
+      );
+    } catch (error) {
+      this.resKo(res, error);
+    }
+  };
+
   getAllMatiereByProf = async (req, res) => {
     try {
       this.resOk(

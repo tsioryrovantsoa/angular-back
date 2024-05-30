@@ -7,4 +7,6 @@ const controller = new UtilisateurController();
 
 app.get('/profs',verifyToken,checkRole(['admin']),controller.getAllProf);
 
+app.get('/eleves',verifyToken,checkRole(['admin']),controller.getAllEleve);
+
 module.exports = app;

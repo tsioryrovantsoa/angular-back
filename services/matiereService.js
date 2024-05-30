@@ -15,6 +15,14 @@ class MatiereService {
     }
   };
 
+  getAllMatiere = async() => {
+    try {
+      return await Matiere.find();
+    } catch (error) {
+      throw error;
+    }
+  }
+
   getAllCoursesByIdProfPagination = async (profId, page = 1, limit = 10) => {
     try {
 
