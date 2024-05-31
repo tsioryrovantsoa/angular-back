@@ -150,9 +150,9 @@ class AssignementService {
       if (!assignment) {
         throw new CustomError("Assignment non trouver", 404);
       }
-      if (assignment.note !== null) {
-        throw new CustomError("Assignment deja noter", 400);
-      }
+      // if (assignment.note !== null) {
+      //   throw new CustomError("Assignment deja noter", 400);
+      // }
 
       assignment.note = note;
       assignment.remarques = remarques;
