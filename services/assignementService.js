@@ -180,6 +180,7 @@ class AssignementService {
       const options = {
         limit: parseInt(limit),
         skip: (parseInt(page) - 1) * parseInt(limit),
+        sort: { dateDeRendu: -1 }
       };
 
       return await Assignment.find(filter, null, options);
