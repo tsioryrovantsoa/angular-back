@@ -95,6 +95,18 @@ class AssignementController extends BaseController {
       this.resKo(res, error);
     }
   };
+
+  getAssignementWithLimit = async (req, res) => {
+    try {
+      this.resOk(
+        res,
+        await this.service.getAssignementWithLimit(req.query),
+        "Assignement avec limit avec success"
+      );
+    } catch (error) {
+      this.resKo(res, error);
+    }
+  };
 }
 
 module.exports = AssignementController;

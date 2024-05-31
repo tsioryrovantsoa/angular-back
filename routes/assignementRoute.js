@@ -23,6 +23,8 @@ const controller = new AssignementController();
  */
 app.get('/',verifyToken,checkRole(['admin','professeur','eleve']),controller.getAllAssignements);
 
+app.get('/withlimit',verifyToken,checkRole(['admin']),controller.getAssignementWithLimit);
+
 app.get('/:id',verifyToken,checkRole(['admin','professeur','eleve']),controller.getAssignementById);
 
 app.post('/',verifyToken,checkRole(['admin','professeur']),controller.createAssignment);

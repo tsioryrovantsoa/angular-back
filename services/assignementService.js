@@ -2,7 +2,7 @@ const Assignment = require("../model/assignment");
 const Matiere = require("../model/matiere");
 const Classe = require("../model/classe");
 const CustomError = require("../utils/CustomError");
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 class AssignementService {
   getAll = async (user, page = 1, limit = 10) => {
@@ -160,6 +160,28 @@ class AssignementService {
       assignment.renduauteur = true;
 
       return await assignment.save();
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  getAssignementWithLimit = async (data) => {
+    try {
+      const { rendu, page = 1, limit = 20 } = data;
+
+      let filter = {};
+      if (rendu === "true") {
+        filter.rendu = true;
+      } else if (rendu === "false") {
+        filter.rendu = false;
+      }
+
+      const options = {
+        limit: parseInt(limit),
+        skip: (parseInt(page) - 1) * parseInt(limit),
+      };
+
+      return await Assignment.find(filter, null, options);
     } catch (error) {
       throw error;
     }
