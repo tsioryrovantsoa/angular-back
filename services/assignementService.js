@@ -47,6 +47,7 @@ class AssignementService {
           },
         },
         { $unwind: "$matiere.prof" },
+        { $sort: { dateDeRendu: -1 } }
       ]);
 
       const options = {
